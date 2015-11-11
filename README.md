@@ -16,6 +16,7 @@ Automated irrigation system drip and monitoring from node js with Raspberry Pi a
 - Nodejs
   - Meteor (App Platform)
   - Jhonny-five
+  - Serial-port
 
 ## Getting started
 
