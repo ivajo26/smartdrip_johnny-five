@@ -23,3 +23,4 @@ meteorhacks:npm
 npm-container
 autopublish
 nimble:restivus
+iron:router
