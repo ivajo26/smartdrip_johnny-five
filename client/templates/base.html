@@ -1,4 +1,8 @@
 <template name="base">
-Hola Mama
+  {{#each cultivos}}
+      <h1>{{createdAt}}</h1>
+      <p>{{Moistures }}</p>
+      <p>{{Temperature }}</p>
+    {{/each}}
 {{> yield}}
 </template>
