@@ -1,6 +1,5 @@
-var five =  Meteor.npmRequire('johnny-five'),
-    board = new five.Board();
-
+// var five =  Meteor.npmRequire('johnny-five'),
+//     board = new five.Board();
 
 var CultivoClass = function (){
   this.Moistures = [];
@@ -20,61 +19,60 @@ CultivoClass.prototype.saveDataBase = function(){
     });
 
 }
-
 var cul = new CultivoClass();
-Cultivo.remove({});
 Meteor.startup(function () {
   console.log('server is ready !');
-  // // Global API configuration
-  //   var Api = new Restivus({
-  //     useDefaultAuth: true,
-  //     prettyJson: true
-  //   });
-  // Api.addCollection(Sensor);
-  // Api.addRoute('prueba', {authRequired: false}, {
-  //   get:function () {
-  //     return Sensor.find({}).count();
+  Cultivo.remove({});
+
+  Meteor.setInterval(function(){
+    cul.setMoisture(0,1);
+    cul.setMoisture(1,2);
+    cul.setMoisture(2,3);
+    cul.setTemperature(10);
+    var lo ="";
+    for(i=0;i<3;i++){lo+=cul.getMoisture(i)+",";}
+    console.log(lo+cul.getTemperature());
+    cul.saveDataBase();
+
+    },1000);
+  // board.on("ready", Meteor.bindEnvironment(function() {
+  //
+  //   //Iniciamos la configuracion del sensor de temperatura y guardamos su valor en variable temporal.
+  //   var Temperature  = new five.Temperature({controller: "LM35",pin: "A4"});
+  //   var Temperature_value=0;
+  //   Temperature.on("data",function(){Temperature_value=this.celsius;});
+  //
+  //   //Iniciamos las configuraciones de los sensores de humedad y guardamos sus lecturas
+  //   var Moistures_pins = ["A0","A1","A2","A3"]
+  //   var Moistures = [];
+  //   var Moistures_values = [0,0,0,0];
+  //
+  //   for(i=0;i<Moistures_pins.length;i++){
+  //     Moistures[i] = new five.Sensor(Moistures_pins[i]);
   //   }
-  // });
-  // // Llamamos libreria e iniicamos la conexcion con el arduino
-  board.on("ready", Meteor.bindEnvironment(function() {
-
-    //Iniciamos la configuracion del sensor de temperatura y guardamos su valor en variable temporal.
-    var Temperature  = new five.Temperature({controller: "LM35",pin: "A4"});
-    var Temperature_value=0;
-    Temperature.on("data",function(){Temperature_value=this.celsius;});
-
-    //Iniciamos las configuraciones de los sensores de humedad y guardamos sus lecturas
-    var Moistures_pins = ["A0","A1","A2","A3"]
-    var Moistures = [];
-    var Moistures_values = [0,0,0,0];
-
-    for(i=0;i<Moistures_pins.length;i++){
-      Moistures[i] = new five.Sensor(Moistures_pins[i]);
-    }
-
-    Moistures[0].on("change", function(){
-        Moistures_values[0]=this.value;
-    });
-    Moistures[1].on("change", function(){
-        Moistures_values[1]=this.value;
-    });
-    Moistures[2].on("change", function(){
-        Moistures_values[2]=this.value;
-    });
-    Moistures[3].on("change", function(){
-        Moistures_values[3]=this.value;
-    });
-
-    Meteor.setInterval(function(){
-      for(i=0;i<Moistures.length;i++){cul.setMoisture(i,Moistures_values[i]);}
-      cul.setTemperature(Temperature_value);
-      var lo ="";
-      for(i=0;i<cul.tamMoisture();i++){lo+=cul.getMoisture(i)+",";}
-      console.log(lo+cul.getTemperature());
-      cul.saveDataBase();
-
-      },1000);
-    }));
+  //
+  //   Moistures[0].on("change", function(){
+  //       Moistures_values[0]=this.value;
+  //   });
+  //   Moistures[1].on("change", function(){
+  //       Moistures_values[1]=this.value;
+  //   });
+  //   Moistures[2].on("change", function(){
+  //       Moistures_values[2]=this.value;
+  //   });
+  //   Moistures[3].on("change", function(){
+  //       Moistures_values[3]=this.value;
+  //   });
+  //
+  //   Meteor.setInterval(function(){
+  //     for(i=0;i<Moistures.length;i++){cul.setMoisture(i,Moistures_values[i]);}
+  //     cul.setTemperature(Temperature_value);
+  //     var lo ="";
+  //     for(i=0;i<cul.tamMoisture();i++){lo+=cul.getMoisture(i)+",";}
+  //     console.log(lo+cul.getTemperature());
+  //     cul.saveDataBase();
+  //
+  //     },1000);
+  //   }));
 
 });

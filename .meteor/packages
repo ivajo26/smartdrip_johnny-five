@@ -19,8 +19,12 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 insecure                # Allow all DB writes from clients (for prototyping)
 meteorhacks:npm
 
+autopublish
+iron:router
+
 
 npm-container
-autopublish
-nimble:restivus
-iron:router
+chart:chart
+twbs:bootstrap
+underscore
+momentjs:moment
